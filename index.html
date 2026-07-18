@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Il Regno Incantato dell'Apparecchio</title>
     <!-- Tailwind CSS v3 Stabile -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,127 +19,142 @@
             background: #f3f4f6;
             -webkit-tap-highlight-color: transparent;
             user-select: none;
+            overflow: hidden;
         }
         .magic-title { font-family: 'Sofia', cursive; }
         .sky-bg {
             background: linear-gradient(to top, #bae6fd 0%, #38bdf8 40%, #1e3a8a 100%);
         }
+        .rainbow-bg {
+            background: linear-gradient(90deg, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff);
+        }
         canvas {
             display: block;
-            background: transparent;
             touch-action: none;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
-<body class="min-h-screen bg-slate-100 flex justify-center items-center p-0 sm:p-4">
+<body class="min-h-screen bg-slate-100 flex justify-center items-center p-0">
 
-    <!-- Schermo Singolo Mobile -->
-    <div class="w-full max-w-md min-h-screen sm:min-h-[850px] bg-gradient-to-b from-[#fbf8f3] to-[#f5ebff] overflow-hidden flex flex-col relative sm:rounded-3xl sm:shadow-2xl">
+    <!-- Contenitore Mobile Principale forzato a Schermo Intero App -->
+    <div class="w-full max-w-md h-screen bg-gradient-to-b from-[#fbf8f3] to-[#f5ebff] overflow-hidden flex flex-col relative sm:shadow-2xl">
         
-        <!-- TOP BAR -->
-        <div class="p-4 flex justify-between items-center z-10">
-            <div class="bg-white/90 px-4 py-1.5 rounded-full shadow-sm border border-pink-100">
-                <span class="text-sm font-bold text-purple-700">Isola degli Unicorni</span>
-            </div>
-            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-1.5 rounded-full shadow-md font-bold text-sm">
-                💎 <span id="global-points">0</span> <span class="text-xs font-normal opacity-90">Cristalli</span>
-            </div>
-        </div>
-
-        <!-- AREA DI GIOCO -->
-        <div class="flex-1 overflow-y-auto px-4 pb-24 space-y-6 z-10">
-            
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-purple-900 magic-title">La Valle dell'Arcobaleno</h1>
-            </div>
-
-            <!-- MAPPA AVANZAMENTO -->
-            <div class="bg-white/95 rounded-2xl p-4 shadow-lg border border-purple-100 relative">
-                <div class="h-32 w-full bg-cover bg-center rounded-xl relative overflow-hidden shadow-inner border" style="background-image: url('mappa-arcobaleno.png');">
-                    <img id="unicorn-avatar" src="unicorno-player.png" alt="Unicorno" class="w-16 h-16 absolute top-8 transition-all duration-500 ease-out" style="left: 0%; transform: translateX(-50%);">
+        <!-- INTERFACCIA HOME DI BASE (Scompare quando un gioco è attivo) -->
+        <div id="main-dashboard" class="flex-1 flex flex-col overflow-y-auto pb-4">
+            <!-- TOP BAR -->
+            <div class="p-4 flex justify-between items-center z-10">
+                <div class="bg-white/90 px-4 py-1.5 rounded-full shadow-sm border border-pink-100">
+                    <span class="text-sm font-bold text-purple-700">Isola degli Unicorni</span>
                 </div>
-                <div class="flex justify-between items-center mt-3 text-xs font-bold text-purple-700">
-                    <span id="completion-text">Esplorato: 0%</span>
-                    <span id="motivational-quote" class="text-pink-500">Pronta per l'avventura? ✨</span>
+                <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-1.5 rounded-full shadow-md font-bold text-sm">
+                    💎 <span id="global-points">0</span> <span class="text-xs font-normal opacity-90">Cristalli</span>
                 </div>
             </div>
 
-            <!-- GIOCO 1: FROGGY'S FLIGHT -->
-            <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-emerald-400">
-                <div class="flex justify-between items-center mb-1">
-                    <h4 class="font-bold text-slate-800 text-base">🐸 Froggy's Flight Game</h4>
-                    <span id="timer-froggy-txt" class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg">15:00</span>
-                </div>
-                <p class="text-xs text-slate-500 mb-3">Tocca il quadro per far saltare la rana e raccogliere le mosche d'oro!</p>
-
-                <div class="relative w-full h-48 rounded-xl overflow-hidden sky-bg border border-sky-300 shadow-inner flex justify-center items-center">
-                    <img src="castello-nuvole.png" alt="Castello" class="w-14 h-14 absolute top-2 right-4 opacity-40">
-                    <canvas id="froggyCanvas" width="380" height="192" class="w-full h-full absolute inset-0 z-20"></canvas>
+            <!-- CONTENUTO HOME -->
+            <div class="px-4 space-y-5 flex-1">
+                <div class="text-center">
+                    <h1 class="text-3xl font-bold text-purple-900 magic-title">La Valle dell'Arcobaleno</h1>
                 </div>
 
-                <button onclick="startFroggyGame()" id="btn-froggy" class="w-full mt-3 bg-emerald-400 hover:bg-emerald-500 text-white font-bold text-sm py-3 rounded-xl shadow-md transition-transform active:scale-95">
-                    🎮 Gioca con Froggy (15 min)
-                </button>
-            </div>
-
-            <!-- GIOCO 2: SPACCAGHIACCIO DEL LEONE -->
-            <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-amber-400">
-                <div class="flex justify-between items-center mb-1">
-                    <h4 class="font-bold text-slate-800 text-base">🦁 Il Ruggito Spaccaghiaccio</h4>
-                    <span id="timer-leone-txt" class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg">10:00</span>
-                </div>
-                <p class="text-xs text-slate-500 mb-3">Tocca i blocchi di ghiaccio volanti per romperli prima che colpiscano il leone!</p>
-
-                <div class="relative w-full h-44 rounded-xl overflow-hidden bg-slate-50 border border-blue-100 shadow-inner flex justify-center items-center">
-                    <canvas id="leoneCanvas" width="380" height="176" class="w-full h-full absolute inset-0 z-20"></canvas>
-                </div>
-
-                <button onclick="startLeoneGame()" id="btn-leone" class="w-full mt-3 bg-amber-400 hover:bg-amber-500 text-white font-bold text-sm py-3 rounded-xl shadow-md transition-transform active:scale-95">
-                    🔥 Gioca a Spaccare il Ghiaccio (10 min)
-                </button>
-            </div>
-
-            <!-- GIOCO 3: AMULETO SOLARE -->
-            <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-sky-400">
-                <h4 class="font-bold text-slate-800 text-base mb-1">☀️ L'Amuleto del Sole</h4>
-                <p class="text-xs text-slate-500 mb-3">Sblocca ed incastona le 6 Gemme magiche (90 min totali)</p>
-
-                <div class="py-6 bg-gradient-to-b from-amber-50 to-orange-50 rounded-xl flex flex-col items-center justify-center">
-                    <img src="amuleto-sole.png" class="w-28 h-28 object-contain" alt="Amuleto">
-                    <div class="grid grid-cols-6 gap-2 mt-4" id="gems-wrapper">
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">1</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">2</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">3</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">4</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">5</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">6</div>
+                <!-- MAPPA AVANZAMENTO -->
+                <div class="bg-white/95 rounded-2xl p-4 shadow-md border border-purple-100 relative">
+                    <div class="h-24 w-full bg-cover bg-center rounded-xl relative overflow-hidden shadow-inner border" style="background-image: url('mappa-arcobaleno.png');">
+                        <img id="unicorn-avatar" src="unicorno-player.png" alt="Unicorno" class="w-14 h-14 absolute top-5 transition-all duration-500 ease-out" style="left: 0%; transform: translateX(-50%);">
+                    </div>
+                    <div class="flex justify-between items-center mt-2 text-[11px] font-bold text-purple-700">
+                        <span id="completion-text">Esplorato: 0%</span>
+                        <span id="motivational-quote" class="text-pink-500">Pronta per l'avventura? ✨</span>
                     </div>
                 </div>
 
-                <div class="mt-4 grid grid-cols-2 gap-3">
-                    <button onclick="addDiurno(15)" class="bg-sky-50 text-sky-700 font-bold text-xs py-2.5 rounded-xl border border-sky-200 active:scale-95 transition-all">➕ Fatti 15 min</button>
-                    <button onclick="addDiurno(30)" class="bg-sky-400 hover:bg-sky-500 text-white font-bold text-xs py-2.5 rounded-xl shadow-sm active:scale-95 transition-all">⚡ Fatti 30 min</button>
+                <!-- SELEZIONE MISSIONI / MINI-GIOCHI -->
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Tasto Froggy -->
+                    <button onclick="launchFullscreenGame('froggy')" id="card-btn-froggy" class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-emerald-400 flex flex-col items-center text-center justify-between h-36 active:scale-95 transition-transform">
+                        <span class="text-3xl">🐸</span>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">Volo di Froggy</h4>
+                            <span id="card-timer-froggy" class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">15:00</span>
+                        </div>
+                    </button>
+
+                    <!-- Tasto Leone -->
+                    <button onclick="launchFullscreenGame('leone')" id="card-btn-leone" class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-amber-400 flex flex-col items-center text-center justify-between h-36 active:scale-95 transition-transform">
+                        <span class="text-3xl">🦁</span>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm">Spaccaghiaccio</h4>
+                            <span id="card-timer-leone" class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">10:00</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- AMULETO SOLARE -->
+                <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-sky-400">
+                    <h4 class="font-bold text-slate-800 text-sm mb-2">☀️ L'Amuleto del Sole (90 min totali)</h4>
+                    <div class="py-3 bg-gradient-to-b from-amber-50 to-orange-50 rounded-xl flex flex-col items-center justify-center">
+                        <img src="amuleto-sole.png" class="w-20 h-20 object-contain" alt="Amuleto" onerror="this.style.border='3px dashed #f59e0b'; this.style.borderRadius='50%'">
+                        <div class="grid grid-cols-6 gap-1.5 mt-3" id="gems-wrapper">
+                            <div class="w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner">1</div>
+                            <div class="w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner">2</div>
+                            <div class="w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner">3</div>
+                            <div class="w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner">4</div>
+                            <div class="w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner">5</div>
+                            <div class="w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner">6</div>
+                        </div>
+                    </div>
+                    <div class="mt-3 grid grid-cols-2 gap-2">
+                        <button onclick="addDiurno(15)" class="bg-sky-50 text-sky-700 font-bold text-[11px] py-2 rounded-xl border border-sky-200 active:scale-95 transition-all">➕ Fatti 15 min</button>
+                        <button onclick="addDiurno(30)" class="bg-sky-400 hover:bg-sky-500 text-white font-bold text-[11px] py-2 rounded-xl active:scale-95 transition-all">⚡ Fatti 30 min</button>
+                    </div>
+                </div>
+
+                <!-- DIARIO -->
+                <div class="bg-white/95 rounded-2xl p-3 shadow-md border border-pink-100">
+                    <div class="grid grid-cols-7 gap-1.5 text-center" id="calendar-grid"></div>
+                    <div class="mt-2 text-center">
+                        <button onclick="resetDay()" class="text-[9px] text-slate-400 hover:text-red-500 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200">🔄 Ripristina Giorno</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- DIARIO -->
-            <div class="bg-white/95 rounded-2xl p-4 shadow-md border border-pink-100">
-                <h3 class="text-xs font-bold text-pink-400 uppercase tracking-wider mb-3 text-center">💖 Lo Scrigno dei Giorni Perfetti</h3>
-                <div class="grid grid-cols-7 gap-2 text-center" id="calendar-grid"></div>
-                <div class="mt-4 text-center">
-                    <button onclick="resetDay()" class="text-[10px] text-slate-400 hover:text-red-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-200 transition-colors">🔄 Ripristina Giorno</button>
-                </div>
+            <div class="p-2 text-center">
+                <p class="text-[10px] font-bold text-purple-500">💖 Papà Dario e Mamma Costanza 💖</p>
             </div>
-
         </div>
+
+        <!-- 🕹️ SCHERMO INTERO: AREA CONTENITORE VERA PER I CANVAS DI GIOCO -->
+        <div id="fullscreen-game-container" class="absolute inset-0 z-50 hidden flex flex-col">
+            
+            <!-- Barra superiore interna al gioco -->
+            <div class="p-4 flex justify-between items-center bg-white/80 backdrop-blur-md border-b shadow-sm">
+                <button onclick="exitGame()" class="bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold active:scale-95">
+                    ⬅️ Esci e Salva
+                </button>
+                <div id="game-headline-title" class="font-bold text-sm text-slate-800">Gioco</div>
+                <div id="game-live-timer" class="text-xs font-bold px-3 py-1.5 rounded-lg text-white">15:00</div>
+            </div>
+
+            <!-- Canvas a Schermo Intero reale -->
+            <div class="flex-1 relative w-full h-full" id="canvas-holder-div">
+                <canvas id="mainGameCanvas"></canvas>
+            </div>
+        </div>
+
     </div>
 
     <script>
         let state = { points: 0, froggyDone: false, leoneDone: false, diurnoMinutes: 0, completedDays: [] };
-        
         let fGame = { total: 900, elapsed: 0, isRunning: false, interval: null };
         let lGame = { total: 600, elapsed: 0, isRunning: false, interval: null };
 
+        let currentActiveMode = null; // 'froggy' o 'leone'
+        const canvas = document.getElementById('mainGameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Asset di gioco
         const images = {};
         const assetSrcs = {
             frog: 'rana-ninfea.png',
@@ -153,213 +168,245 @@
             images[key].src = assetSrcs[key];
         });
 
-        // --- MOTORE GIOCO 1: FROGGY ---
-        const fCanvas = document.getElementById('froggyCanvas');
-        const fCtx = fCanvas.getContext('2d');
-        let frogY = 130;
+        // Variabili fisiche e dinamiche interne ai cicli dei Canvas
+        let frogY = 300;
         let frogVelocity = 0;
         let flies = [];
-
-        function initFroggyPhysics() {
-            fCanvas.addEventListener('pointerdown', () => {
-                if (fGame.isRunning) frogVelocity = -4.5;
-            });
-        }
-
-        function updateFroggyGameLoop() {
-            fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
-            
-            if(images.castle.complete) fCtx.drawImage(images.castle, fCanvas.width - 60, 10, 50, 50);
-
-            if (fGame.isRunning) {
-                frogVelocity += 0.2;
-                frogY += frogVelocity;
-                if (frogY > 130) { frogY = 130; frogVelocity = 0; }
-                if (frogY < 0) { frogY = 0; frogVelocity = 0; }
-
-                if (Math.random() < 0.02) {
-                    flies.push({ x: fCanvas.width, y: Math.random() * 100 + 30, size: 12 });
-                }
-            }
-
-            for (let i = flies.length - 1; i >= 0; i--) {
-                if (fGame.isRunning) flies[i].x -= 2;
-                
-                fCtx.fillStyle = '#fbbf24';
-                fCtx.beginPath();
-                fCtx.arc(flies[i].x, flies[i].y, flies[i].size / 2, 0, Math.PI * 2);
-                fCtx.fill();
-
-                if (flies[i].x > 40 && flies[i].x < 90 && flies[i].y > frogY && flies[i].y < frogY + 50) {
-                    flies.splice(i, 1);
-                    state.points += 5;
-                    document.getElementById('global-points').innerText = state.points;
-                    continue;
-                }
-                if (flies[i].x < -20) flies.splice(i, 1);
-            }
-
-            if (images.frog.complete) {
-                fCtx.drawImage(images.frog, 40, frogY, 50, 50);
-            } else {
-                fCtx.fillStyle = '#10b981';
-                fCtx.fillRect(40, frogY, 45, 45);
-            }
-
-            requestAnimationFrame(updateFroggyGameLoop);
-        }
-
-        function startFroggyGame() {
-            if (state.froggyDone) return;
-            const btn = document.getElementById('btn-froggy');
-            if (fGame.isRunning) {
-                fGame.isRunning = false;
-                clearInterval(fGame.interval);
-                btn.innerText = "🚀 Riprendi il gioco di Froggy";
-            } else {
-                fGame.isRunning = true;
-                btn.innerText = "⏸️ Pausa Gioco";
-                fGame.interval = setInterval(() => {
-                    fGame.elapsed++;
-                    let min = Math.floor((fGame.total - fGame.elapsed) / 60);
-                    let sec = (fGame.total - fGame.elapsed) % 60;
-                    document.getElementById('timer-froggy-txt').innerText = `${min}:${sec < 10 ? '0':''}${sec}`;
-                    
-                    if (fGame.elapsed >= fGame.total) {
-                        clearInterval(fGame.interval);
-                        fGame.isRunning = false;
-                        state.froggyDone = true; state.points += 150;
-                        save(); updateUI();
-                    }
-                }, 1000);
-            }
-        }
-
-        // --- MOTORE GIOCO 2: LEONE ---
-        const lCanvas = document.getElementById('leoneCanvas');
-        const lCtx = lCanvas.getContext('2d');
         let iceBlocks = [];
 
-        function initLeoneInteraction() {
-            lCanvas.addEventListener('pointerdown', (e) => {
-                if (!lGame.isRunning) return;
-                const rect = lCanvas.getBoundingClientRect();
-                const scaleX = lCanvas.width / rect.width;
-                const scaleY = lCanvas.height / rect.height;
-                const clickX = (e.clientX - rect.left) * scaleX;
-                const clickY = (e.clientY - rect.top) * scaleY;
+        // Adatta la risoluzione logica del Canvas alle dimensioni fisiche reali del display dello smartphone
+        function resizeCanvasToContainer() {
+            const holder = document.getElementById('canvas-holder-div');
+            canvas.width = holder.clientWidth;
+            canvas.height = holder.clientHeight;
+            if(frogY > canvas.height - 80) frogY = canvas.height - 80;
+        }
 
+        // Interazione unica Touch/Pointer sia desktop che mobile senza ritardi
+        canvas.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            if (currentActiveMode === 'froggy') {
+                frogVelocity = -5.0; // Salto della rana
+            } else if (currentActiveMode === 'leone') {
+                const rect = canvas.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const clickY = e.clientY - rect.top;
+
+                // Controllo collisione tap per distruggere i cubetti volanti
                 for (let i = iceBlocks.length - 1; i >= 0; i--) {
                     let b = iceBlocks[i];
                     if (clickX > b.x && clickX < b.x + b.w && clickY > b.y && clickY < b.y + b.h) {
                         iceBlocks.splice(i, 1);
                         state.points += 10;
                         document.getElementById('global-points').innerText = state.points;
-                        confetti({ particleCount: 10, spread: 20, origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight } });
+                        confetti({ particleCount: 15, spread: 30, origin: { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight } });
                     }
                 }
-            });
-        }
-
-        function updateLeoneGameLoop() {
-            lCtx.clearRect(0, 0, lCanvas.width, lCanvas.height);
-
-            let ratio = lGame.elapsed / lGame.total;
-            if (state.leoneDone) ratio = 1;
-
-            if (images.lionColor.complete) {
-                lCtx.drawImage(images.lionColor, lCanvas.width/2 - 45, lCanvas.height/2 - 50, 90, 90);
             }
+        });
 
-            if (!state.leoneDone && images.lionGray.complete) {
-                lCtx.save();
-                lCtx.globalAlpha = 1 - ratio;
-                lCtx.drawImage(images.lionGray, lCanvas.width/2 - 45, lCanvas.height/2 - 50, 90, 90);
-                lCtx.restore();
-            }
+        // CORE GAME LOOP: Gestione Rendering Schermo Intero unificato
+        function globalGameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if (!state.leoneDone) {
-                lCtx.fillStyle = `rgba(165, 243, 252, ${0.4 * (1 - ratio)})`;
-                lCtx.fillRect(lCanvas.width/2 - 50, lCanvas.height/2 - 55, 100, 100);
-            }
+            if (currentActiveMode === 'froggy') {
+                // Sfondo cielo indaco/azzurro sfumato a tutto schermo
+                let skyGrad = ctx.createLinearGradient(0, canvas.height, 0, 0);
+                skyGrad.addColorStop(0, '#bae6fd'); skyGrad.addColorStop(0.4, '#38bdf8'); skyGrad.addColorStop(1, '#1e3a8a');
+                ctx.fillStyle = skyGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            if (lGame.isRunning && Math.random() < 0.03) {
-                let side = Math.random() > 0.5 ? 0 : lCanvas.width;
-                iceBlocks.push({ x: side, y: Math.random() * 100 + 20, w: 24, h: 24, speed: side === 0 ? 1.5 : -1.5 });
-            }
+                // Castello Traguardo finale disegnato grande
+                if (images.castle.complete && images.castle.naturalWidth !== 0) {
+                    ctx.drawImage(images.castle, canvas.width - 100, 20, 80, 80);
+                }
 
-            for (let i = iceBlocks.length - 1; i >= 0; i--) {
-                if (lGame.isRunning) iceBlocks[i].x += iceBlocks[i].speed;
+                // Fisica Rana
+                frogVelocity += 0.2;
+                frogY += frogVelocity;
+                if (frogY > canvas.height - 80) { frogY = canvas.height - 80; frogVelocity = 0; }
+                if (frogY < 10) { frogY = 10; frogVelocity = 0; }
 
-                lCtx.fillStyle = '#22d3ee';
-                lCtx.strokeStyle = '#e0f2fe';
-                lCtx.lineWidth = 2;
-                lCtx.fillRect(iceBlocks[i].x, iceBlocks[i].y, iceBlocks[i].w, iceBlocks[i].h);
-                lCtx.strokeRect(iceBlocks[i].x, iceBlocks[i].y, iceBlocks[i].w, iceBlocks[i].h);
+                // Generatore mosche
+                if (Math.random() < 0.02) {
+                    flies.push({ x: canvas.width, y: Math.random() * (canvas.height - 150) + 60 });
+                }
 
-                if (iceBlocks[i].x > lCanvas.width/2 - 25 && iceBlocks[i].x < lCanvas.width/2 + 25) {
-                    iceBlocks.splice(i, 1);
+                // Renderizza e muove mosche
+                for (let i = flies.length - 1; i >= 0; i--) {
+                    flies[i].x -= 2.5;
+                    ctx.fillStyle = '#facc15';
+                    ctx.beginPath(); ctx.arc(flies[i].x, flies[i].y, 7, 0, Math.PI * 2); ctx.fill();
+
+                    // Collisione ampia comoda per dita bimba
+                    if (flies[i].x > 30 && flies[i].x < 110 && flies[i].y > frogY - 10 && flies[i].y < frogY + 70) {
+                        flies.splice(i, 1); state.points += 5;
+                        document.getElementById('global-points').innerText = state.points;
+                        continue;
+                    }
+                    if (flies[i].x < -20) flies.splice(i, 1);
+                }
+
+                // Disegna Froggy personaggio reale
+                if (images.frog.complete && images.frog.naturalWidth !== 0) {
+                    ctx.drawImage(images.frog, 40, frogY, 65, 65);
+                } else {
+                    ctx.fillStyle = '#34d399'; ctx.beginPath(); ctx.arc(70, frogY + 30, 25, 0, Math.PI * 2); ctx.fill();
+                }
+
+            } else if (currentActiveMode === 'leone') {
+                // Sfondo chiaro neutro per l'azione dello spaccaghiaccio
+                ctx.fillStyle = '#f8fafc'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                let ratio = lGame.elapsed / lGame.total;
+
+                // Disegna Leone centrale
+                let lw = 130, lh = 130;
+                let lx = canvas.width / 2 - lw / 2;
+                let ly = canvas.height / 2 - lh / 2;
+
+                if (images.lionColor.complete && images.lionColor.naturalWidth !== 0) {
+                    ctx.drawImage(images.lionColor, lx, ly, lw, lh);
+                }
+
+                // Sbiadisce il leone congelato
+                if (images.lionGray.complete && images.lionGray.naturalWidth !== 0) {
+                    ctx.save(); ctx.globalAlpha = 1 - ratio;
+                    ctx.drawImage(images.lionGray, lx, ly, lw, lh); ctx.restore();
+                }
+
+                // Blocco ghiaccio centrale trasparente a tutto schermo
+                ctx.fillStyle = `rgba(167, 243, 254, ${0.4 * (1 - ratio)})`;
+                ctx.strokeStyle = `rgba(186, 230, 253, ${0.6 * (1 - ratio)})`;
+                ctx.lineWidth = 4;
+                ctx.fillRect(lx - 10, ly - 10, lw + 20, lh + 20);
+                ctx.strokeRect(lx - 10, ly - 10, lw + 20, lh + 20);
+
+                // Generatore cubetti ghiaccio nemici dai lati dello schermo intero
+                if (Math.random() < 0.035) {
+                    let side = Math.random() > 0.5 ? -30 : canvas.width + 10;
+                    iceBlocks.push({ x: side, y: Math.random() * (canvas.height - 100) + 50, w: 30, h: 30, speed: side < 0 ? 2.0 : -2.0 });
+                }
+
+                for (let i = iceBlocks.length - 1; i >= 0; i--) {
+                    iceBlocks[i].x += iceBlocks[i].speed;
+                    ctx.fillStyle = '#67e8f9'; ctx.strokeStyle = '#bae6fd'; ctx.lineWidth = 3;
+                    ctx.fillRect(iceBlocks[i].x, iceBlocks[i].y, iceBlocks[i].w, iceBlocks[i].h);
+                    ctx.strokeRect(iceBlocks[i].x, iceBlocks[i].y, iceBlocks[i].w, iceBlocks[i].h);
+
+                    // Se colpiscono lo scudo del leone al centro svaniscono
+                    if (iceBlocks[i].x > lx - 20 && iceBlocks[i].x < lx + lw) {
+                        iceBlocks.splice(i, 1);
+                    }
                 }
             }
 
-            requestAnimationFrame(updateLeoneGameLoop);
+            requestAnimationFrame(globalGameLoop);
         }
 
-        function startLeoneGame() {
-            if (state.leoneDone) return;
-            const btn = document.getElementById('btn-leone');
-            if (lGame.isRunning) {
-                lGame.isRunning = false;
-                clearInterval(lGame.interval);
-                btn.innerText = "🔥 Continua lo spaccaghiaccio";
-            } else {
+        // AZIONE: ATTIVAZIONE ED ESPANSIONE SCHERMO INTERO MOBILE DI GIOCO
+        function launchFullscreenGame(mode) {
+            currentActiveMode = mode;
+            document.getElementById('main-dashboard').classList.add('hidden');
+            
+            const container = document.getElementById('fullscreen-game-container');
+            container.classList.remove('hidden');
+            
+            resizeCanvasToContainer();
+
+            const timerTxt = document.getElementById('game-live-timer');
+            const titleTxt = document.getElementById('game-headline-title');
+
+            if (mode === 'froggy') {
+                titleTxt.innerText = "🐸 Il Volo di Froggy";
+                timerTxt.className = "text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-500 shadow-sm";
+                fGame.isRunning = true;
+                
+                fGame.interval = setInterval(() => {
+                    fGame.elapsed++;
+                    let rem = fGame.total - fGame.elapsed;
+                    timerTxt.innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
+                    if(fGame.elapsed >= fGame.total) {
+                        state.froggyDone = true; state.points += 150; exitGame();
+                    }
+                }, 1000);
+
+            } else if (mode === 'leone') {
+                titleTxt.innerText = "🦁 Lo Spaccaghiaccio del Leone";
+                timerTxt.className = "text-xs font-bold px-3 py-1.5 rounded-lg bg-amber-500 shadow-sm";
                 lGame.isRunning = true;
-                btn.innerText = "⏸️ Pausa Esercizio";
+
                 lGame.interval = setInterval(() => {
                     lGame.elapsed++;
-                    let min = Math.floor((lGame.total - lGame.elapsed) / 60);
-                    let sec = (lGame.total - lGame.elapsed) % 60;
-                    document.getElementById('timer-leone-txt').innerText = `${min}:${sec < 10 ? '0' : ''}${sec}`;
-
-                    if (lGame.elapsed >= lGame.total) {
-                        clearInterval(lGame.interval);
-                        lGame.isRunning = false;
-                        state.leoneDone = true; state.points += 100;
-                        save(); updateUI();
+                    let rem = lGame.total - lGame.elapsed;
+                    timerTxt.innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
+                    if(lGame.elapsed >= lGame.total) {
+                        state.leoneDone = true; state.points += 100; exitGame();
                     }
                 }, 1000);
             }
         }
 
-        // --- SISTEMA INTERFACCIA ---
+        // AZIONE: CHIUSURA SCHERMO INTERO E SALVATAGGIO STATI
+        function exitGame() {
+            fGame.isRunning = false; clearInterval(fGame.interval);
+            lGame.isRunning = false; clearInterval(lGame.interval);
+            
+            currentActiveMode = null;
+            flies = []; iceBlocks = [];
+            
+            document.getElementById('fullscreen-game-container').classList.add('hidden');
+            document.getElementById('main-dashboard').classList.remove('hidden');
+            
+            save();
+            updateUI();
+        }
+
+        // INTERFACCIA BASE E CARICAMENTO REGOLE
+        function init() {
+            const saved = localStorage.getItem('regno_v9_fullscreen');
+            if (saved) { try { state = { ...state, ...JSON.parse(saved) }; } catch(e) {} }
+            updateUI();
+            renderCalendar();
+        }
+
+        function save() { localStorage.setItem('regno_v9_fullscreen', JSON.stringify(state)); }
+
         function updateUI() {
             document.getElementById('global-points').innerText = state.points;
 
+            // Aggiorna scritte e stati bottoni se completati
             if (state.froggyDone) {
-                document.getElementById('btn-froggy').disabled = true;
-                document.getElementById('btn-froggy').innerText = "Froggy è al sicuro nel castello! 👑";
-                document.getElementById('btn-froggy').className = "w-full mt-3 bg-slate-200 text-slate-400 font-bold text-sm py-3 rounded-xl cursor-not-allowed";
-                document.getElementById('timer-froggy-txt').innerText = "FATTO";
-            }
-            if (state.leoneDone) {
-                document.getElementById('btn-leone').disabled = true;
-                document.getElementById('btn-leone').innerText = "Il Leone è libero! 🦁";
-                document.getElementById('btn-leone').className = "w-full mt-3 bg-slate-200 text-slate-400 font-bold text-sm py-3 rounded-xl cursor-not-allowed";
-                document.getElementById('timer-leone-txt').innerText = "FATTO";
+                document.getElementById('card-btn-froggy').disabled = true;
+                document.getElementById('card-btn-froggy').className = "bg-slate-100 rounded-2xl p-4 border border-slate-200 opacity-60 flex flex-col items-center text-center justify-between h-36 cursor-not-allowed";
+                document.getElementById('card-timer-froggy').innerText = "COMPLETATO 👑";
+            } else {
+                let rem = fGame.total - fGame.elapsed;
+                document.getElementById('card-timer-froggy').innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
             }
 
+            if (state.leoneDone) {
+                document.getElementById('card-btn-leone').disabled = true;
+                document.getElementById('card-btn-leone').className = "bg-slate-100 rounded-2xl p-4 border border-slate-200 opacity-60 flex flex-col items-center text-center justify-between h-36 cursor-not-allowed";
+                document.getElementById('card-timer-leone').innerText = "COMPLETATO 👑";
+            } else {
+                let rem = lGame.total - lGame.elapsed;
+                document.getElementById('card-timer-leone').innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
+            }
+
+            // Amuleto Solare Gemme
             const gems = Math.floor(state.diurnoMinutes / 15);
             const wrapper = document.getElementById('gems-wrapper').children;
             for(let i=0; i<6; i++) {
                 if(i < gems) {
-                    wrapper[i].className = "w-8 h-8 rounded-full flex items-center justify-center transform scale-110 border-0 shadow-md";
-                    wrapper[i].innerHTML = "<img src='gemma-accesa.png' class='w-full h-full object-contain'>";
+                    wrapper[i].className = "w-7 h-7 rounded-full flex items-center justify-center transform scale-110 shadow-md bg-transparent border-0";
+                    wrapper[i].innerHTML = "<img src='gemma-accesa.png' class='w-full h-full object-contain' onerror='this.parent.innerHTML=\"💎\"'>";
                 } else {
-                    wrapper[i].className = "w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner";
+                    wrapper[i].className = "w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner";
                     wrapper[i].innerHTML = (i + 1);
                 }
             }
 
+            // Calcolo barra arcobaleno
             let prog = 0;
             if (state.froggyDone) prog += 33.3;
             if (state.leoneDone) prog += 33.3;
@@ -370,7 +417,7 @@
             document.getElementById('completion-text').innerText = `Esplorato: ${prog}%`;
 
             const q = document.getElementById('motivational-quote');
-            if (prog >= 100) { q.innerText = "Regno della Luce conquistato! 👑🎉"; triggerWin(); }
+            if (prog >= 100) { q.innerText = "Regno sbloccato! 👑🎉"; triggerWin(); }
         }
 
         function addDiurno(m) {
@@ -382,7 +429,7 @@
         function triggerWin() {
             const t = new Date().toISOString().split('T')[0];
             if (!state.completedDays.includes(t)) { state.completedDays.push(t); state.points += 300; save(); renderCalendar(); }
-            confetti({ particleCount: 100, spread: 60 });
+            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
         }
 
         function renderCalendar() {
@@ -392,30 +439,25 @@
                 let d = new Date(); d.setDate(d.getDate() - i);
                 let win = state.completedDays.includes(d.toISOString().split('T')[0]);
                 let box = document.createElement('div');
-                box.className = `p-2 rounded-xl border flex flex-col items-center ${win ? 'bg-pink-100 border-pink-300' : 'bg-slate-50 border-slate-200'}`;
-                box.innerHTML = `<span class="text-[9px] text-slate-400 font-bold">${dShort[(d.getDay() + 6) % 7]}</span><span class="text-xs font-bold text-slate-700">${d.getDate()}</span><span class="text-xs mt-1">${win ? '💎' : '🔒'}</span>`;
+                box.className = `p-1 rounded-xl border flex flex-col items-center ${win ? 'bg-pink-100 border-pink-300' : 'bg-slate-50 border-slate-200'}`;
+                box.innerHTML = `<span class="text-[8px] text-slate-400 font-bold">${dShort[(d.getDay() + 6) % 7]}</span><span class="text-xs font-bold text-slate-700">${d.getDate()}</span><span class="text-xs mt-0.5">${win ? '💎' : '🔒'}</span>`;
                 grid.appendChild(box);
             }
         }
 
         function resetDay() {
-            if(confirm("Vuoi resettare i dati odierni?")) {
+            if(confirm("Vuoi resettare i dati?")) {
                 state.froggyDone = false; state.leoneDone = false; state.diurnoMinutes = 0;
-                clearInterval(fGame.interval); clearInterval(lGame.interval);
                 fGame = { total: 900, elapsed: 0, isRunning: false, interval: null };
                 lGame = { total: 600, elapsed: 0, isRunning: false, interval: null };
-                document.getElementById('timer-froggy-txt').innerText = "15:00";
-                document.getElementById('timer-leone-txt').innerText = "10:00";
                 save(); init();
             }
         }
 
+        window.addEventListener('resize', resizeCanvasToContainer);
         window.onload = () => {
             init();
-            initFroggyPhysics();
-            initLeoneInteraction();
-            updateFroggyGameLoop();
-            updateLeoneGameLoop();
+            globalGameLoop();
         };
     </script>
 </body>
