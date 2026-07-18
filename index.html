@@ -21,13 +21,11 @@
             user-select: none;
         }
         .magic-title { font-family: 'Sofia', cursive; }
-        
-        /* Forza transizioni fluide e nette per i movimenti e le sfocature */
         .character-move {
             transition: bottom 0.4s linear, transform 0.3s ease;
         }
         .ice-transition {
-            transition: opacity 0.5s ease, filter 0.5s ease, backdrop-filter 0.5s ease;
+            transition: opacity 0.5s ease, filter 0.5s ease;
         }
         .sky-bg {
             background: linear-gradient(to top, #bae6fd 0%, #38bdf8 40%, #1e3a8a 100%);
@@ -37,11 +35,12 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex justify-center items-start p-0 sm:p-4">
+<body class="min-h-screen bg-slate-100 flex justify-center items-center p-0 sm:p-4">
 
-    <div class="w-full max-w-md min-h-screen bg-gradient-to-b from-[#fbf8f3] to-[#f5ebff] overflow-hidden flex flex-col relative sm:rounded-3xl sm:shadow-2xl">
+    <!-- Wrapper Principale Forzato a Colonna Singola Mobile -->
+    <div class="w-full max-w-md min-h-screen sm:min-h-[850px] bg-gradient-to-b from-[#fbf8f3] to-[#f5ebff] overflow-hidden flex flex-col relative sm:rounded-3xl sm:shadow-2xl border-0">
         
-        <!-- TOP BAR: Cristalli guadagnati -->
+        <!-- TOP BAR -->
         <div class="p-4 flex justify-between items-center z-10">
             <div class="bg-white/90 px-4 py-1.5 rounded-full shadow-sm border border-pink-100">
                 <span class="text-sm font-bold text-purple-700">Isola degli Unicorni</span>
@@ -51,17 +50,16 @@
             </div>
         </div>
 
-        <!-- AREA DI GIOCO -->
+        <!-- CONTENUTO FLUIDO CENTRATO -->
         <div class="flex-1 overflow-y-auto px-4 pb-24 space-y-6 z-10">
             
             <div class="text-center">
                 <h1 class="text-3xl font-bold text-purple-900 magic-title">La Valle dell'Arcobaleno</h1>
             </div>
 
-            <!-- 🗺️ MAPPA ILLUSTRATA: Il percorso dell'Unicorno -->
+            <!-- 🗺️ MAPPA -->
             <div class="bg-white/95 rounded-2xl p-4 shadow-lg border border-purple-100 relative">
                 <div class="h-32 w-full bg-cover bg-center rounded-xl relative overflow-hidden shadow-inner border" style="background-image: url('mappa-arcobaleno.png');">
-                    <!-- L'Unicorno si sposta linearmente impostando la proprietà left via JS -->
                     <img id="unicorn-avatar" src="unicorno-player.png" alt="Unicorno" class="w-16 h-16 absolute top-8 transition-all duration-500 ease-out" style="left: 0%; transform: translateX(-50%);">
                 </div>
                 <div class="flex justify-between items-center mt-3 text-xs font-bold text-purple-700">
@@ -70,17 +68,15 @@
                 </div>
             </div>
 
-            <!-- 🐸 MINI-GIOCO 1: FROGGY FOCUS (Volo verso il castello) -->
+            <!-- 🐸 FROGGY -->
             <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-emerald-400">
                 <h4 class="font-bold text-slate-800 text-base mb-1">🐸 Il Volo di Froggy</h4>
                 <p class="text-xs text-slate-500 mb-3">Tieni la lingua a posto per far volare la rana fino al castello!</p>
 
                 <div class="h-48 w-full rounded-xl relative overflow-hidden sky-bg border border-sky-300 shadow-inner">
-                    <!-- Castello traguardo fisso in alto -->
-                    <img src="castello-nuvole.png" alt="Castello" class="w-20 h-20 absolute top-2 left-1/2 -translate-x-1/2 filter drop-shadow-md">
+                    <img src="castello-nuvole.png" alt="Castello" class="w-20 h-20 absolute top-2 left-1/2 -translate-x-1/2 filter drop-shadow-md z-10">
                     
-                    <!-- Contenitore dinamico della rana: si sposta modificando direttamente bottom in stile inline -->
-                    <div id="froggy-character" class="absolute left-1/2 -translate-x-1/2 character-move w-16 h-16" style="bottom: 8px;">
+                    <div id="froggy-character" class="absolute left-1/2 -translate-x-1/2 character-move w-16 h-16 z-20" style="bottom: 8px;">
                         <img src="rana-ninfea.png" alt="Froggy" class="w-full h-full object-contain">
                     </div>
                 </div>
@@ -90,22 +86,16 @@
                 </button>
             </div>
 
-            <!-- 🦁 MINI-GIOCO 2: IL LEONE CONGELATO (Scioglimento progressivo) -->
+            <!-- 🦁 LEONE -->
             <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-amber-400">
                 <h4 class="font-bold text-slate-800 text-base mb-1">🦁 Il Leone e il Cristallo di Ghiaccio</h4>
                 <p class="text-xs text-slate-500 mb-3">Libera il leone dal ghiaccio sprigionando energia!</p>
 
                 <div class="h-44 bg-slate-50 rounded-xl relative overflow-hidden flex items-center justify-center border border-blue-100 shadow-inner">
-                    <!-- Immagine A COLORI (Sotto) -->
                     <img src="leone-colore.png" alt="Leone Felice" class="w-28 h-28 object-contain">
-                    
-                    <!-- Immagine IN BIANCO E NERO (Sopra - si dissolve modificando inline opacity) -->
                     <img id="leone-frozen" src="leone-grigio.png" alt="Leone Congelato" class="w-28 h-28 object-contain absolute ice-transition" style="opacity: 1;">
-                    
-                    <!-- Strato azzurrato di ghiaccio con sfocatura dinamica (backdrop-blur e opacity controllati da JS) -->
                     <div id="ice-block" class="absolute inset-0 bg-cyan-100/30 ice-transition pointer-events-none" style="backdrop-filter: blur(6px); opacity: 1;"></div>
 
-                    <!-- Barra del calore generato -->
                     <div class="absolute bottom-2 left-4 right-4 h-2 bg-slate-200 rounded-full overflow-hidden">
                         <div id="leone-heat-bar" class="h-full bg-gradient-to-r from-amber-400 to-red-500" style="width: 0%;"></div>
                     </div>
@@ -116,7 +106,7 @@
                 </button>
             </div>
 
-            <!-- ☀️ MINI-GIOCO 3: L'AMULETO DEL SOLE (Incastono Gemme) -->
+            <!-- ☀️ AMULETO -->
             <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-sky-400">
                 <h4 class="font-bold text-slate-800 text-base mb-1">☀️ L'Amuleto del Sole</h4>
                 <p class="text-xs text-slate-500 mb-3">Incastona le 6 Gemme dell'Arcobaleno (90 min totali)</p>
@@ -124,7 +114,6 @@
                 <div class="py-6 bg-gradient-to-b from-amber-50 to-orange-50 rounded-xl flex flex-col items-center justify-center">
                     <img src="amuleto-sole.png" class="w-28 h-28 object-contain" alt="Amuleto">
                     <div class="grid grid-cols-6 gap-2 mt-4" id="gems-wrapper">
-                        <!-- Slot vuoti iniziali -->
                         <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">1</div>
                         <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">2</div>
                         <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">3</div>
@@ -140,7 +129,7 @@
                 </div>
             </div>
 
-            <!-- SCRIGNO SUCCESSI -->
+            <!-- DIARIO -->
             <div class="bg-white/95 rounded-2xl p-4 shadow-md border border-pink-100">
                 <h3 class="text-xs font-bold text-pink-400 uppercase tracking-wider mb-3 text-center">💖 Lo Scrigno dei Giorni Perfetti</h3>
                 <div class="grid grid-cols-7 gap-2 text-center" id="calendar-grid"></div>
@@ -150,6 +139,10 @@
             </div>
 
         </div>
+
+        <div class="absolute bottom-0 left-0 right-0 p-3 bg-white/80 backdrop-blur-lg border-t border-purple-50 text-center z-20">
+            <p class="text-xs font-bold text-purple-600">💖 Fatto da Papà Dario e Mamma Costanza 💖</p>
+        </div>
     </div>
 
     <script>
@@ -158,52 +151,48 @@
         let lTimer = { interval: null, elapsed: 0, total: 600, isRunning: false };
 
         function init() {
-            const saved = localStorage.getItem('regno_v6_final');
+            const saved = localStorage.getItem('regno_v7_final');
             if (saved) { try { state = { ...state, ...JSON.parse(saved) }; } catch(e) {} }
             updateUI();
             renderCalendar();
         }
 
-        function save() { localStorage.setItem('regno_v6_final', JSON.stringify(state)); }
+        function save() { localStorage.setItem('regno_v7_final', JSON.stringify(state)); }
 
         function updateUI() {
             document.getElementById('global-points').innerText = state.points;
 
-            // Logica e Animazione Movimento Froggy
+            // Froggy flight engine
             const fChar = document.getElementById('froggy-character');
             const btnF = document.getElementById('btn-froggy');
             if (state.froggyDone) {
-                fChar.style.bottom = '110px'; // Fissato in cima al castello
+                fChar.style.bottom = '110px';
                 btnF.disabled = true; btnF.innerText = "Froggy è al sicuro nel castello! 👑";
                 btnF.className = "w-full mt-3 bg-slate-200 text-slate-400 font-bold text-sm py-3 rounded-xl cursor-not-allowed";
-            } else if (!fTimer.isRunning) {
-                // Ripristina la posizione visiva salvata se l'app viene chiusa e riaperta a metà corsa
-                let currentPct = (fTimer.elapsed / fTimer.total);
-                fChar.style.bottom = `${8 + (currentPct * 102)}px`;
+            } else {
+                let ratio = fTimer.elapsed / fTimer.total;
+                fChar.style.bottom = `${8 + (ratio * 102)}px`;
             }
 
-            // Logica e Dissolvenza Leone
+            // Leone thaw engine
             const lFrozen = document.getElementById('leone-frozen');
             const iBlock = document.getElementById('ice-block');
             const hBar = document.getElementById('leone-heat-bar');
             const btnL = document.getElementById('btn-leone');
             
             if (state.leoneDone) {
-                lFrozen.style.opacity = '0';
-                iBlock.style.opacity = '0';
-                iBlock.style.backdropFilter = 'blur(0px)';
-                hBar.style.width = '100%';
+                lFrozen.style.opacity = '0'; iBlock.style.opacity = '0'; hBar.style.width = '100%';
                 btnL.disabled = true; btnL.innerText = "Il Leone ruggisce di felicità! 🦁";
                 btnL.className = "w-full mt-3 bg-slate-200 text-slate-400 font-bold text-sm py-3 rounded-xl cursor-not-allowed";
-            } else if (!lTimer.isRunning) {
-                let currentPct = (lTimer.elapsed / lTimer.total);
-                lFrozen.style.opacity = 1 - currentPct;
-                iBlock.style.opacity = 1 - currentPct;
-                iBlock.style.backdropFilter = `blur(${6 - (currentPct * 6)}px)`;
-                hBar.style.width = `${currentPct * 100}%`;
+            } else {
+                let ratio = lTimer.elapsed / lTimer.total;
+                lFrozen.style.opacity = 1 - ratio;
+                iBlock.style.opacity = 1 - ratio;
+                iBlock.style.backdropFilter = `blur(${6 - (ratio * 6)}px)`;
+                hBar.style.width = `${ratio * 100}%`;
             }
 
-            // Riempimento delle Gemme dell'Amuleto
+            // Gemme
             const gems = Math.floor(state.diurnoMinutes / 15);
             const wrapper = document.getElementById('gems-wrapper').children;
             for(let i=0; i<6; i++) {
@@ -216,7 +205,7 @@
                 }
             }
 
-            // Calcolo e spostamento Unicorno sulla Mappa
+            // Mappa avanzamento
             let prog = 0;
             if (state.froggyDone) prog += 33.3;
             if (state.leoneDone) prog += 33.3;
@@ -234,24 +223,14 @@
         function toggleFroggy() {
             if (state.froggyDone) return;
             const btn = document.getElementById('btn-froggy');
-            const char = document.getElementById('froggy-character');
-            
             if (fTimer.isRunning) {
                 clearInterval(fTimer.interval); fTimer.isRunning = false;
                 btn.innerText = "🚀 Riprendi il volo della ranocchia";
-                btn.className = "w-full mt-3 bg-amber-400 text-white font-bold text-sm py-3 rounded-xl shadow-md";
             } else {
-                fTimer.isRunning = true; 
-                btn.innerText = "⏸️ Pausa Volo";
-                btn.className = "w-full mt-3 bg-rose-400 text-white font-bold text-sm py-3 rounded-xl shadow-inner";
-                
+                fTimer.isRunning = true; btn.innerText = "⏸️ Pausa Volo";
                 fTimer.interval = setInterval(() => {
                     fTimer.elapsed++;
-                    let ratio = fTimer.elapsed / fTimer.total;
-                    
-                    // Muove millimetro per millimetro cambiando il bottom inline
-                    char.style.bottom = `${8 + (ratio * 102)}px`;
-                    
+                    updateUI();
                     if (fTimer.elapsed >= fTimer.total) {
                         clearInterval(fTimer.interval); state.froggyDone = true; state.points += 150;
                         save(); updateUI();
@@ -263,29 +242,14 @@
         function toggleLeone() {
             if (state.leoneDone) return;
             const btn = document.getElementById('btn-leone');
-            const frozen = document.getElementById('leone-frozen');
-            const block = document.getElementById('ice-block');
-            const bar = document.getElementById('leone-heat-bar');
-            
             if (lTimer.isRunning) {
                 clearInterval(lTimer.interval); lTimer.isRunning = false;
                 btn.innerText = "🔥 Continua a scaldare il leone";
-                btn.className = "w-full mt-3 bg-amber-400 text-white font-bold text-sm py-3 rounded-xl";
             } else {
-                lTimer.isRunning = true; 
-                btn.innerText = "⏸️ Pausa Esercizio";
-                btn.className = "w-full mt-3 bg-rose-400 text-white font-bold text-sm py-3 rounded-xl";
-                
+                lTimer.isRunning = true; btn.innerText = "⏸️ Pausa Esercizio";
                 lTimer.interval = setInterval(() => {
                     lTimer.elapsed++;
-                    let ratio = lTimer.elapsed / lTimer.total;
-                    
-                    // Sgela fluidamente agendo direttamente sulle proprietà di stile inline
-                    frozen.style.opacity = 1 - ratio;
-                    block.style.opacity = 1 - ratio;
-                    block.style.backdropFilter = `blur(${6 - (ratio * 6)}px)`;
-                    bar.style.width = `${ratio * 100}%`;
-                    
+                    updateUI();
                     if (lTimer.elapsed >= lTimer.total) {
                         clearInterval(lTimer.interval); state.leoneDone = true; state.points += 100;
                         save(); updateUI();
@@ -298,7 +262,6 @@
             if (state.diurnoMinutes >= 90) return;
             state.diurnoMinutes = Math.min(state.diurnoMinutes + m, 90);
             state.points += m * 2; save(); updateUI();
-            confetti({ particleCount: 20, spread: 30, colors: ['#38bdf8'] });
         }
 
         function triggerWin() {
@@ -321,361 +284,11 @@
         }
 
         function resetDay() {
-            if(confirm("Vuoi azzerare la giornata di test attuale?")) {
+            if(confirm("Vuoi resettare la giornata attuale?")) {
                 state.froggyDone = false; state.leoneDone = false; state.diurnoMinutes = 0;
                 clearInterval(fTimer.interval); clearInterval(lTimer.interval);
                 fTimer = { interval: null, elapsed: 0, total: 900, isRunning: false };
                 lTimer = { interval: null, elapsed: 0, total: 600, isRunning: false };
-                
-                // Ripristina stili grafici nativi
-                document.getElementById('froggy-character').style.bottom = '8px';
-                document.getElementById('leone-frozen').style.opacity = '1';
-                document.getElementById('ice-block').style.opacity = '1';
-                document.getElementById('ice-block').style.backdropFilter = 'blur(6px)';
-                document.getElementById('leone-heat-bar').style.width = '0%';
-                
-                save(); init();
-            }
-        }
-        window.onload = init;
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Regno Incantato dell'Apparecchio</title>
-    <!-- Tailwind CSS v3 Stabile via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Sofia&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-    <style>
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background: #f3f4f6;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
-        }
-        .magic-title { font-family: 'Sofia', cursive; }
-        
-        /* Forza transizioni fluide e nette per i movimenti e le sfocature */
-        .character-move {
-            transition: bottom 0.4s linear, transform 0.3s ease;
-        }
-        .ice-transition {
-            transition: opacity 0.5s ease, filter 0.5s ease, backdrop-filter 0.5s ease;
-        }
-        .sky-bg {
-            background: linear-gradient(to top, #bae6fd 0%, #38bdf8 40%, #1e3a8a 100%);
-        }
-        .rainbow-bg {
-            background: linear-gradient(90deg, #ffadad, #ffd6a5, #fdffb6, #caffbf, #9bf6ff, #a0c4ff, #bdb2ff, #ffc6ff);
-        }
-    </style>
-</head>
-<body class="min-h-screen flex justify-center items-start p-0 sm:p-4">
-
-    <div class="w-full max-w-md min-h-screen bg-gradient-to-b from-[#fbf8f3] to-[#f5ebff] overflow-hidden flex flex-col relative sm:rounded-3xl sm:shadow-2xl">
-        
-        <!-- TOP BAR: Cristalli guadagnati -->
-        <div class="p-4 flex justify-between items-center z-10">
-            <div class="bg-white/90 px-4 py-1.5 rounded-full shadow-sm border border-pink-100">
-                <span class="text-sm font-bold text-purple-700">Isola degli Unicorni</span>
-            </div>
-            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-1.5 rounded-full shadow-md font-bold text-sm">
-                💎 <span id="global-points">0</span> <span class="text-xs font-normal opacity-90">Cristalli</span>
-            </div>
-        </div>
-
-        <!-- AREA DI GIOCO -->
-        <div class="flex-1 overflow-y-auto px-4 pb-24 space-y-6 z-10">
-            
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-purple-900 magic-title">La Valle dell'Arcobaleno</h1>
-            </div>
-
-            <!-- 🗺️ MAPPA ILLUSTRATA: Il percorso dell'Unicorno -->
-            <div class="bg-white/95 rounded-2xl p-4 shadow-lg border border-purple-100 relative">
-                <div class="h-32 w-full bg-cover bg-center rounded-xl relative overflow-hidden shadow-inner border" style="background-image: url('mappa-arcobaleno.png');">
-                    <!-- L'Unicorno si sposta linearmente impostando la proprietà left via JS -->
-                    <img id="unicorn-avatar" src="unicorno-player.png" alt="Unicorno" class="w-16 h-16 absolute top-8 transition-all duration-500 ease-out" style="left: 0%; transform: translateX(-50%);">
-                </div>
-                <div class="flex justify-between items-center mt-3 text-xs font-bold text-purple-700">
-                    <span id="completion-text">Esplorato: 0%</span>
-                    <span id="motivational-quote" class="text-pink-500">Pronta per l'avventura? ✨</span>
-                </div>
-            </div>
-
-            <!-- 🐸 MINI-GIOCO 1: FROGGY FOCUS (Volo verso il castello) -->
-            <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-emerald-400">
-                <h4 class="font-bold text-slate-800 text-base mb-1">🐸 Il Volo di Froggy</h4>
-                <p class="text-xs text-slate-500 mb-3">Tieni la lingua a posto per far volare la rana fino al castello!</p>
-
-                <div class="h-48 w-full rounded-xl relative overflow-hidden sky-bg border border-sky-300 shadow-inner">
-                    <!-- Castello traguardo fisso in alto -->
-                    <img src="castello-nuvole.png" alt="Castello" class="w-20 h-20 absolute top-2 left-1/2 -translate-x-1/2 filter drop-shadow-md">
-                    
-                    <!-- Contenitore dinamico della rana: si sposta modificando direttamente bottom in stile inline -->
-                    <div id="froggy-character" class="absolute left-1/2 -translate-x-1/2 character-move w-16 h-16" style="bottom: 8px;">
-                        <img src="rana-ninfea.png" alt="Froggy" class="w-full h-full object-contain">
-                    </div>
-                </div>
-
-                <button onclick="toggleFroggy()" id="btn-froggy" class="w-full mt-3 bg-emerald-400 hover:bg-emerald-500 text-white font-bold text-sm py-3 rounded-xl shadow-md active:scale-95 transition-transform">
-                    🚀 Avvia il Motore della Ninfea (15 min)
-                </button>
-            </div>
-
-            <!-- 🦁 MINI-GIOCO 2: IL LEONE CONGELATO (Scioglimento progressivo) -->
-            <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-amber-400">
-                <h4 class="font-bold text-slate-800 text-base mb-1">🦁 Il Leone e il Cristallo di Ghiaccio</h4>
-                <p class="text-xs text-slate-500 mb-3">Libera il leone dal ghiaccio sprigionando energia!</p>
-
-                <div class="h-44 bg-slate-50 rounded-xl relative overflow-hidden flex items-center justify-center border border-blue-100 shadow-inner">
-                    <!-- Immagine A COLORI (Sotto) -->
-                    <img src="leone-colore.png" alt="Leone Felice" class="w-28 h-28 object-contain">
-                    
-                    <!-- Immagine IN BIANCO E NERO (Sopra - si dissolve modificando inline opacity) -->
-                    <img id="leone-frozen" src="leone-grigio.png" alt="Leone Congelato" class="w-28 h-28 object-contain absolute ice-transition" style="opacity: 1;">
-                    
-                    <!-- Strato azzurrato di ghiaccio con sfocatura dinamica (backdrop-blur e opacity controllati da JS) -->
-                    <div id="ice-block" class="absolute inset-0 bg-cyan-100/30 ice-transition pointer-events-none" style="backdrop-filter: blur(6px); opacity: 1;"></div>
-
-                    <!-- Barra del calore generato -->
-                    <div class="absolute bottom-2 left-4 right-4 h-2 bg-slate-200 rounded-full overflow-hidden">
-                        <div id="leone-heat-bar" class="h-full bg-gradient-to-r from-amber-400 to-red-500" style="width: 0%;"></div>
-                    </div>
-                </div>
-
-                <button onclick="toggleLeone()" id="btn-leone" class="w-full mt-3 bg-amber-400 hover:bg-amber-500 text-white font-bold text-sm py-3 rounded-xl shadow-md active:scale-95 transition-transform">
-                    🔥 Attiva il Calore Magico (10 min)
-                </button>
-            </div>
-
-            <!-- ☀️ MINI-GIOCO 3: L'AMULETO DEL SOLE (Incastono Gemme) -->
-            <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-sky-400">
-                <h4 class="font-bold text-slate-800 text-base mb-1">☀️ L'Amuleto del Sole</h4>
-                <p class="text-xs text-slate-500 mb-3">Incastona le 6 Gemme dell'Arcobaleno (90 min totali)</p>
-
-                <div class="py-6 bg-gradient-to-b from-amber-50 to-orange-50 rounded-xl flex flex-col items-center justify-center">
-                    <img src="amuleto-sole.png" class="w-28 h-28 object-contain" alt="Amuleto">
-                    <div class="grid grid-cols-6 gap-2 mt-4" id="gems-wrapper">
-                        <!-- Slot vuoti iniziali -->
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">1</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">2</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">3</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">4</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">5</div>
-                        <div class="w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner">6</div>
-                    </div>
-                </div>
-
-                <div class="mt-4 grid grid-cols-2 gap-3">
-                    <button onclick="addDiurno(15)" class="bg-sky-50 text-sky-700 font-bold text-xs py-2.5 rounded-xl border border-sky-200 active:scale-95 transition-all">➕ Fatti 15 min</button>
-                    <button onclick="addDiurno(30)" class="bg-sky-400 hover:bg-sky-500 text-white font-bold text-xs py-2.5 rounded-xl shadow-sm active:scale-95 transition-all">⚡ Fatti 30 min</button>
-                </div>
-            </div>
-
-            <!-- SCRIGNO SUCCESSI -->
-            <div class="bg-white/95 rounded-2xl p-4 shadow-md border border-pink-100">
-                <h3 class="text-xs font-bold text-pink-400 uppercase tracking-wider mb-3 text-center">💖 Lo Scrigno dei Giorni Perfetti</h3>
-                <div class="grid grid-cols-7 gap-2 text-center" id="calendar-grid"></div>
-                <div class="mt-4 text-center">
-                    <button onclick="resetDay()" class="text-[10px] text-slate-400 hover:text-red-500 bg-slate-50 px-3 py-1 rounded-full border border-slate-200 transition-colors">🔄 Ripristina Giorno</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        let state = { points: 0, froggyDone: false, leoneDone: false, diurnoMinutes: 0, completedDays: [] };
-        let fTimer = { interval: null, elapsed: 0, total: 900, isRunning: false };
-        let lTimer = { interval: null, elapsed: 0, total: 600, isRunning: false };
-
-        function init() {
-            const saved = localStorage.getItem('regno_v6_final');
-            if (saved) { try { state = { ...state, ...JSON.parse(saved) }; } catch(e) {} }
-            updateUI();
-            renderCalendar();
-        }
-
-        function save() { localStorage.setItem('regno_v6_final', JSON.stringify(state)); }
-
-        function updateUI() {
-            document.getElementById('global-points').innerText = state.points;
-
-            // Logica e Animazione Movimento Froggy
-            const fChar = document.getElementById('froggy-character');
-            const btnF = document.getElementById('btn-froggy');
-            if (state.froggyDone) {
-                fChar.style.bottom = '110px'; // Fissato in cima al castello
-                btnF.disabled = true; btnF.innerText = "Froggy è al sicuro nel castello! 👑";
-                btnF.className = "w-full mt-3 bg-slate-200 text-slate-400 font-bold text-sm py-3 rounded-xl cursor-not-allowed";
-            } else if (!fTimer.isRunning) {
-                // Ripristina la posizione visiva salvata se l'app viene chiusa e riaperta a metà corsa
-                let currentPct = (fTimer.elapsed / fTimer.total);
-                fChar.style.bottom = `${8 + (currentPct * 102)}px`;
-            }
-
-            // Logica e Dissolvenza Leone
-            const lFrozen = document.getElementById('leone-frozen');
-            const iBlock = document.getElementById('ice-block');
-            const hBar = document.getElementById('leone-heat-bar');
-            const btnL = document.getElementById('btn-leone');
-            
-            if (state.leoneDone) {
-                lFrozen.style.opacity = '0';
-                iBlock.style.opacity = '0';
-                iBlock.style.backdropFilter = 'blur(0px)';
-                hBar.style.width = '100%';
-                btnL.disabled = true; btnL.innerText = "Il Leone ruggisce di felicità! 🦁";
-                btnL.className = "w-full mt-3 bg-slate-200 text-slate-400 font-bold text-sm py-3 rounded-xl cursor-not-allowed";
-            } else if (!lTimer.isRunning) {
-                let currentPct = (lTimer.elapsed / lTimer.total);
-                lFrozen.style.opacity = 1 - currentPct;
-                iBlock.style.opacity = 1 - currentPct;
-                iBlock.style.backdropFilter = `blur(${6 - (currentPct * 6)}px)`;
-                hBar.style.width = `${currentPct * 100}%`;
-            }
-
-            // Riempimento delle Gemme dell'Amuleto
-            const gems = Math.floor(state.diurnoMinutes / 15);
-            const wrapper = document.getElementById('gems-wrapper').children;
-            for(let i=0; i<6; i++) {
-                if(i < gems) {
-                    wrapper[i].className = "w-8 h-8 rounded-full flex items-center justify-center transform scale-110 border-0 shadow-md";
-                    wrapper[i].innerHTML = "<img src='gemma-accesa.png' class='w-full h-full object-contain'>";
-                } else {
-                    wrapper[i].className = "w-8 h-8 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-xs text-slate-400 font-bold shadow-inner";
-                    wrapper[i].innerHTML = (i + 1);
-                }
-            }
-
-            // Calcolo e spostamento Unicorno sulla Mappa
-            let prog = 0;
-            if (state.froggyDone) prog += 33.3;
-            if (state.leoneDone) prog += 33.3;
-            prog += (Math.min(gems, 6) * 5.55);
-            prog = Math.min(Math.round(prog), 100);
-
-            document.getElementById('unicorn-avatar').style.left = `${prog}%`;
-            document.getElementById('completion-text').innerText = `Esplorato: ${prog}%`;
-
-            const q = document.getElementById('motivational-quote');
-            if (prog >= 100) { q.innerText = "Regno della Luce sbloccato! 👑🎉"; triggerWin(); }
-            else if (prog > 0) { q.innerText = "L'unicorno sta avanzando! 🌸"; }
-        }
-
-        function toggleFroggy() {
-            if (state.froggyDone) return;
-            const btn = document.getElementById('btn-froggy');
-            const char = document.getElementById('froggy-character');
-            
-            if (fTimer.isRunning) {
-                clearInterval(fTimer.interval); fTimer.isRunning = false;
-                btn.innerText = "🚀 Riprendi il volo della ranocchia";
-                btn.className = "w-full mt-3 bg-amber-400 text-white font-bold text-sm py-3 rounded-xl shadow-md";
-            } else {
-                fTimer.isRunning = true; 
-                btn.innerText = "⏸️ Pausa Volo";
-                btn.className = "w-full mt-3 bg-rose-400 text-white font-bold text-sm py-3 rounded-xl shadow-inner";
-                
-                fTimer.interval = setInterval(() => {
-                    fTimer.elapsed++;
-                    let ratio = fTimer.elapsed / fTimer.total;
-                    
-                    // Muove millimetro per millimetro cambiando il bottom inline
-                    char.style.bottom = `${8 + (ratio * 102)}px`;
-                    
-                    if (fTimer.elapsed >= fTimer.total) {
-                        clearInterval(fTimer.interval); state.froggyDone = true; state.points += 150;
-                        save(); updateUI();
-                    }
-                }, 1000);
-            }
-        }
-
-        function toggleLeone() {
-            if (state.leoneDone) return;
-            const btn = document.getElementById('btn-leone');
-            const frozen = document.getElementById('leone-frozen');
-            const block = document.getElementById('ice-block');
-            const bar = document.getElementById('leone-heat-bar');
-            
-            if (lTimer.isRunning) {
-                clearInterval(lTimer.interval); lTimer.isRunning = false;
-                btn.innerText = "🔥 Continua a scaldare il leone";
-                btn.className = "w-full mt-3 bg-amber-400 text-white font-bold text-sm py-3 rounded-xl";
-            } else {
-                lTimer.isRunning = true; 
-                btn.innerText = "⏸️ Pausa Esercizio";
-                btn.className = "w-full mt-3 bg-rose-400 text-white font-bold text-sm py-3 rounded-xl";
-                
-                lTimer.interval = setInterval(() => {
-                    lTimer.elapsed++;
-                    let ratio = lTimer.elapsed / lTimer.total;
-                    
-                    // Sgela fluidamente agendo direttamente sulle proprietà di stile inline
-                    frozen.style.opacity = 1 - ratio;
-                    block.style.opacity = 1 - ratio;
-                    block.style.backdropFilter = `blur(${6 - (ratio * 6)}px)`;
-                    bar.style.width = `${ratio * 100}%`;
-                    
-                    if (lTimer.elapsed >= lTimer.total) {
-                        clearInterval(lTimer.interval); state.leoneDone = true; state.points += 100;
-                        save(); updateUI();
-                    }
-                }, 1000);
-            }
-        }
-
-        function addDiurno(m) {
-            if (state.diurnoMinutes >= 90) return;
-            state.diurnoMinutes = Math.min(state.diurnoMinutes + m, 90);
-            state.points += m * 2; save(); updateUI();
-            confetti({ particleCount: 20, spread: 30, colors: ['#38bdf8'] });
-        }
-
-        function triggerWin() {
-            const t = new Date().toISOString().split('T')[0];
-            if (!state.completedDays.includes(t)) { state.completedDays.push(t); state.points += 300; save(); renderCalendar(); }
-            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        }
-
-        function renderCalendar() {
-            const grid = document.getElementById('calendar-grid'); grid.innerHTML = "";
-            const dShort = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-            for (let i = 6; i >= 0; i--) {
-                let d = new Date(); d.setDate(d.getDate() - i);
-                let win = state.completedDays.includes(d.toISOString().split('T')[0]);
-                let box = document.createElement('div');
-                box.className = `p-2 rounded-xl border flex flex-col items-center ${win ? 'bg-pink-100 border-pink-300' : 'bg-slate-50 border-slate-200'}`;
-                box.innerHTML = `<span class="text-[9px] text-slate-400 font-bold">${dShort[(d.getDay() + 6) % 7]}</span><span class="text-xs font-bold text-slate-700">${d.getDate()}</span><span class="text-xs mt-1">${win ? '💎' : '🔒'}</span>`;
-                grid.appendChild(box);
-            }
-        }
-
-        function resetDay() {
-            if(confirm("Vuoi azzerare la giornata di test attuale?")) {
-                state.froggyDone = false; state.leoneDone = false; state.diurnoMinutes = 0;
-                clearInterval(fTimer.interval); clearInterval(lTimer.interval);
-                fTimer = { interval: null, elapsed: 0, total: 900, isRunning: false };
-                lTimer = { interval: null, elapsed: 0, total: 600, isRunning: false };
-                
-                // Ripristina stili grafici nativi
-                document.getElementById('froggy-character').style.bottom = '8px';
-                document.getElementById('leone-frozen').style.opacity = '1';
-                document.getElementById('ice-block').style.opacity = '1';
-                document.getElementById('ice-block').style.backdropFilter = 'blur(6px)';
-                document.getElementById('leone-heat-bar').style.width = '0%';
-                
                 save(); init();
             }
         }
