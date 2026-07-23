@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Il Regno Incantato dell'Apparecchio</title>
-    <!-- Tailwind CSS v3 Stabile -->
+    <title>Il Regno Incantato di Dalia</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Sofia&display=swap" rel="stylesheet">
-    <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -41,7 +38,7 @@
                     <span class="text-sm font-bold text-purple-700">Isola degli Unicorni</span>
                 </div>
                 <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-1.5 rounded-full shadow-md font-bold text-sm">
-                    💎 <span id="global-points">0</span> <span class="text-xs font-normal opacity-90">Cristalli</span>
+                    💎 <span id="global-points">0</span> Cristalli
                 </div>
             </div>
 
@@ -50,10 +47,10 @@
                     <h1 class="text-3xl font-bold text-purple-900 magic-title">La Valle dell'Arcobaleno</h1>
                 </div>
 
-                <!-- MAPPA -->
+                <!-- MAPPA AVANZAMENTO -->
                 <div class="bg-white/95 rounded-2xl p-4 shadow-md border border-purple-100 relative">
                     <div class="h-24 w-full bg-cover bg-center rounded-xl relative overflow-hidden shadow-inner border" style="background-image: url('mappa-arcobaleno.png');">
-                        <img id="unicorn-avatar" src="unicorno-player.png" alt="Unicorno" class="w-14 h-14 absolute top-5 transition-all duration-500 ease-out" style="left: 0%; transform: translateX(-50%);">
+                        <img id="unicorn-avatar" src="frogMarked.png" alt="Rana Pedina" class="w-12 h-12 absolute top-6 transition-all duration-500 ease-out" style="left: 0%; transform: translateX(-50%);">
                     </div>
                     <div class="flex justify-between items-center mt-2 text-[11px] font-bold text-purple-700">
                         <span id="completion-text">Esplorato: 0%</span>
@@ -74,42 +71,33 @@
                     <button onclick="launchFullscreenGame('leone')" id="card-btn-leone" class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-amber-400 flex flex-col items-center text-center justify-between h-32 active:scale-95 transition-transform">
                         <span class="text-3xl">🦁</span>
                         <div>
-                            <h4 class="font-bold text-slate-800 text-xs">Leone active</h4>
+                            <h4 class="font-bold text-slate-800 text-xs">Leone Cacciatore</h4>
                             <span id="card-timer-leone" class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md">10:00</span>
                         </div>
                     </button>
                 </div>
 
-                <!-- AMULETO -->
+                <!-- AMULETO SOLE -->
                 <div class="bg-white rounded-2xl p-4 shadow-md border-b-4 border-sky-400">
                     <h4 class="font-bold text-slate-800 text-xs mb-2">☀️ L'Amuleto del Sole</h4>
                     <div class="py-3 bg-gradient-to-b from-amber-50 to-orange-50 rounded-xl flex flex-col items-center justify-center">
-                        <img src="amuleto-sole.png" class="w-16 h-16 object-contain" alt="Amuleto" onerror="this.style.border='3px dashed #f59e0b'; this.style.borderRadius='50%'">
-                        <div class="grid grid-cols-6 gap-1.5 mt-3" id="gems-wrapper"></div>
+                        <div class="grid grid-cols-6 gap-1.5 mt-1" id="gems-wrapper"></div>
                     </div>
                     <div class="mt-3 grid grid-cols-2 gap-2">
                         <button onclick="addDiurno(15)" class="bg-sky-50 text-sky-700 font-bold text-[10px] py-2 rounded-xl border border-sky-200 active:scale-95 transition-all">➕ Fatti 15 min</button>
                         <button onclick="addDiurno(30)" class="bg-sky-400 hover:bg-sky-500 text-white font-bold text-[10px] py-2 rounded-xl active:scale-95 transition-all">⚡ Fatti 30 min</button>
                     </div>
                 </div>
-
-                <!-- DIARIO -->
-                <div class="bg-white/95 rounded-2xl p-3 shadow-md border border-pink-100">
-                    <div class="grid grid-cols-7 gap-1.5 text-center" id="calendar-grid"></div>
-                    <div class="mt-2 text-center">
-                        <button onclick="resetDay()" class="text-[8px] text-slate-400 hover:text-red-500 bg-slate-50 px-2 py-0.5 rounded-full border border-slate-200">🔄 Ripristina Giorno</button>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- AREA GIOCO SCHERMO INTERO -->
+        <!-- SCHERMO DI GIOCO -->
         <div id="fullscreen-game-container" class="absolute inset-0 z-50 hidden flex flex-col">
             <div class="p-3 flex justify-between items-center bg-white/90 backdrop-blur-md border-b shadow-sm z-30">
                 <button onclick="exitGame()" class="bg-slate-200 text-slate-700 px-3 py-1 rounded-xl text-xs font-bold active:scale-95">
                     ⬅️ Salva ed Esci
                 </button>
-                <div id="game-headline-title" class="font-bold text-xs text-slate-800">Gioco</div>
+                <div id="game-headline-title" class="font-bold text-xs text-slate-800">Volo di Froggy</div>
                 <div id="game-live-timer" class="text-xs font-bold px-2.5 py-1 rounded-lg text-white bg-slate-500">15:00</div>
             </div>
 
@@ -121,7 +109,7 @@
     </div>
 
     <script>
-        let state = { points: 0, froggyDone: false, leoneDone: false, diurnoMinutes: 0, completedDays: [] };
+        let state = { points: 0, froggyDone: false, leoneDone: false, diurnoMinutes: 0 };
         let fGame = { total: 900, elapsed: 0, isRunning: false, interval: null };
         let lGame = { total: 600, elapsed: 0, isRunning: false, interval: null };
 
@@ -129,39 +117,62 @@
         const canvas = document.getElementById('mainGameCanvas');
         const ctx = canvas.getContext('2d');
 
-        const images = {};
+        // Mappa sorgenti asset
+        const rawImages = {};
+        const cleanCanvasAssets = {};
         const assetSrcs = {
-            frog: 'rana-ninfea.png',
-            castle: 'castello-nuvole.png',
-            lionColor: 'leone-colore.png',
-            goldFly: 'mosca-oro.png',
-            royalFly: 'mosca-corona.png',
-            stormCloud: 'nuvola-tempesta.png'
+            frog: 'frogSmiley.png',
+            castle: 'castleIsland.png',
+            goldFly: 'goldFly_L.png',
+            royalFly: 'royalFly_L.png',
+            stormCloud: 'stormCloud.png'
         };
 
+        // RIMOZIONE AUTOMATICA DEGLI SCACCHI E RITAGLIO TRASPARENTE
+        function makeTransparentAsset(imgKey, imgObj) {
+            let tempCanvas = document.createElement('canvas');
+            let tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = imgObj.naturalWidth || imgObj.width;
+            tempCanvas.height = imgObj.naturalHeight || imgObj.height;
+
+            if (!tempCanvas.width) return;
+
+            tempCtx.drawImage(imgObj, 0, 0);
+            let imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            let data = imgData.data;
+
+            // Riconosce e rimuove pixel di grigio/bianco tipici dei finti PNG a scacchi
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i], g = data[i+1], b = data[i+2];
+                // Se il pixel è tonalità di grigio/sfondo neutro della griglia, rendilo trasparente
+                if ((r > 180 && g > 180 && b > 180 && Math.abs(r - g) < 15 && Math.abs(g - b) < 15) ||
+                    (r < 80 && g < 80 && b < 80 && Math.abs(r - g) < 10)) {
+                    data[i + 3] = 0; // Alpha = Trasparente
+                }
+            }
+            tempCtx.putImageData(imgData, 0, 0);
+            cleanCanvasAssets[imgKey] = tempCanvas;
+        }
+
         Object.keys(assetSrcs).forEach(key => {
-            images[key] = new Image();
-            images[key].src = assetSrcs[key];
+            rawImages[key] = new Image();
+            rawImages[key].src = assetSrcs[key];
+            rawImages[key].onload = () => {
+                makeTransparentAsset(key, rawImages[key]);
+            };
         });
 
-        // VARIABILI ENGINE FROGGY
+        // VARIABILI DI GIOCO
         let frogY = 250;
         let frogVelocity = 0;
         let flies = [];
         let obstacles = [];
-        let escapingFlies = [];
         let sessionFliesEaten = 0;
         let backgroundScrollX = 0;
-        let hitFlashFrames = 0;
 
-        // Variabili per l'animazione visiva della lingua
-        let tongueTarget = null;
+        let tongueState = 'idle';
+        let tongueTargetFly = null;
         let tongueLen = 0;
-        let tongueState = 'idle'; // 'idle', 'shooting', 'retracting'
-
-        // VARIABILI ENGINE LEONE
-        let lionX = 150;
-        let iceBlocks = [];
 
         function resizeCanvasToContainer() {
             const holder = document.getElementById('canvas-holder-div');
@@ -173,30 +184,7 @@
         canvas.addEventListener('pointerdown', (e) => {
             e.preventDefault();
             if (currentActiveMode === 'froggy' && fGame.isRunning) {
-                frogVelocity = -5.5;
-            } else if (currentActiveMode === 'leone' && lGame.isRunning) {
-                const rect = canvas.getBoundingClientRect();
-                const clickX = e.clientX - rect.left;
-                const clickY = e.clientY - rect.top;
-                lionX = clickX - 40;
-                
-                for (let i = iceBlocks.length - 1; i >= 0; i--) {
-                    let b = iceBlocks[i];
-                    if (clickX > b.x - 20 && clickX < b.x + b.size + 20 && clickY > b.y - 20 && clickY < b.y + b.size + 20) {
-                        iceBlocks.splice(i, 1);
-                        state.points += 15;
-                        document.getElementById('global-points').innerText = state.points;
-                    }
-                }
-            }
-        });
-
-        canvas.addEventListener('pointermove', (e) => {
-            if (currentActiveMode === 'leone' && lGame.isRunning) {
-                const rect = canvas.getBoundingClientRect();
-                lionX = (e.clientX - rect.left) - 40;
-                if (lionX < 0) lionX = 0;
-                if (lionX > canvas.width - 80) lionX = canvas.width - 80;
+                frogVelocity = -5.8;
             }
         });
 
@@ -204,239 +192,120 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (currentActiveMode === 'froggy') {
-                let timeFactor = 1 + (fGame.elapsed / 300);
-                let currentSpeed = 2.5 * timeFactor;
+                let currentSpeed = 2.8;
 
-                // SFONDO DINAMICO
+                // Sfondo cielo azzurro continuo
                 let skyGrad = ctx.createLinearGradient(0, canvas.height, 0, 0);
-                skyGrad.addColorStop(0, '#bae6fd'); skyGrad.addColorStop(0.5, '#7dd3fc'); skyGrad.addColorStop(1, '#0284c7');
+                skyGrad.addColorStop(0, '#7dd3fc'); skyGrad.addColorStop(1, '#0284c7');
                 ctx.fillStyle = skyGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                if (fGame.isRunning) backgroundScrollX -= (currentSpeed * 0.3);
-                if (backgroundScrollX < -canvas.width) backgroundScrollX = 0;
-
-                ctx.fillStyle = '#bae6fd';
-                for (let offset of [0, canvas.width]) {
-                    ctx.beginPath();
-                    ctx.moveTo(offset + backgroundScrollX, canvas.height);
-                    ctx.lineTo(offset + backgroundScrollX + canvas.width * 0.3, canvas.height - 140);
-                    ctx.lineTo(offset + backgroundScrollX + canvas.width * 0.7, canvas.height - 180);
-                    ctx.lineTo(offset + backgroundScrollX + canvas.width, canvas.height);
-                    ctx.fill();
+                // Disegno Castello di arrivo
+                if (cleanCanvasAssets.castle) {
+                    ctx.drawImage(cleanCanvasAssets.castle, canvas.width - 110, 20, 90, 90);
                 }
 
-                ctx.drawImage(images.castle, canvas.width - 90, 15, 75, 75);
-
                 if (fGame.isRunning) {
-                    frogVelocity += 0.22;
+                    frogVelocity += 0.24;
                     frogY += frogVelocity;
-                    if (frogY > canvas.height - 85) { frogY = canvas.height - 85; frogVelocity = 0; }
+                    if (frogY > canvas.height - 90) { frogY = canvas.height - 90; frogVelocity = 0; }
                     if (frogY < 10) { frogY = 10; frogVelocity = 0; }
 
-                    // GENERATORE MOSCHE (Comuni vs Rare con Corona)
+                    // Spawn Mosche
                     if (Math.random() < 0.028) {
-                        let isRoyal = Math.random() < 0.15; // 15% di probabilità che sia la mosca rara reale
                         flies.push({ 
                             x: canvas.width, 
                             y: Math.random() * (canvas.height - 180) + 60,
-                            isRoyal: isRoyal,
-                            pulse: 0
+                            isRoyal: Math.random() < 0.18
                         });
                     }
 
-                    if (Math.random() < 0.012) {
-                        obstacles.push({ x: canvas.width, y: Math.random() * (canvas.height - 160) + 40, size: 45 });
+                    // Spawn Nuvola Tempesta (Ostacolo)
+                    if (Math.random() < 0.01) {
+                        obstacles.push({ x: canvas.width, y: Math.random() * (canvas.height - 160) + 40 });
                     }
                 }
 
-                // GESTIONE E DISEGNO DELLE MOSCHE
+                // GESTIONE E DISEGNO MOSCHE
                 for (let i = flies.length - 1; i >= 0; i--) {
-                    // Le mosche con la corona scappano un filo più veloci
-                    if (fGame.isRunning) flies[i].x -= (flies[i].isRoyal ? currentSpeed * 1.2 : currentSpeed);
+                    if (fGame.isRunning) flies[i].x -= currentSpeed;
 
-                    let flyImg = flies[i].isRoyal ? images.royalFly : images.goldFly;
+                    let flyAsset = flies[i].isRoyal ? cleanCanvasAssets.royalFly : cleanCanvasAssets.goldFly;
 
-                    // Effetto alone luminoso intorno alla mosca rara con la corona
-                    if (flies[i].isRoyal) {
-                        flies[i].pulse += 0.1;
+                    if (flyAsset) {
+                        // Disegna la mosca pulita orientata a sinistra
                         ctx.save();
-                        ctx.shadowBlur = 10 + Math.sin(flies[i].pulse) * 5;
-                        ctx.shadowColor = '#eab308';
+                        ctx.scale(-1, 1); // Specchia orizzontalmente se necessario
+                        ctx.drawImage(flyAsset, -flies[i].x - 20, flies[i].y - 20, 40, 40);
+                        ctx.restore();
                     }
 
-                    if (flyImg.complete && flyImg.naturalWidth !== 0) {
-                        ctx.drawImage(flyImg, flies[i].x - 15, flies[i].y - 15, 30, 30);
-                    } else {
-                        ctx.fillStyle = flies[i].isRoyal ? '#eab308' : '#fbbf24';
-                        ctx.beginPath(); ctx.arc(flies[i].x, flies[i].y, flies[i].isRoyal ? 9 : 7, 0, Math.PI * 2); ctx.fill();
-                    }
-
-                    if (flies[i].isRoyal) ctx.restore();
-
-                    // Rilevamento distanza per attivare lo scatto della lingua (Trigger visivo prima del contatto)
-                    let dist = Math.hypot(flies[i].x - 75, flies[i].y - (frogY + 25));
-                    if (dist < 140 && tongueState === 'idle' && fGame.isRunning) {
+                    // Attivazione lingua
+                    let dist = Math.hypot(flies[i].x - 80, flies[i].y - (frogY + 30));
+                    if (dist < 120 && tongueState === 'idle' && fGame.isRunning) {
                         tongueState = 'shooting';
-                        tongueTarget = flies[i];
+                        tongueTargetFly = flies[i];
                     }
 
-                    // COLLISIONE: La mosca tocca la bocca o la lingua la cattura
-                    if (flies[i].x > 30 && flies[i].x < 105 && flies[i].y > frogY - 10 && flies[i].y < frogY + 65) {
-                        let pointsGained = flies[i].isRoyal ? 50 : 10; // 50 punti se mangia quella con la corona!
+                    // Collisione / Cattura
+                    if (flies[i].x > 30 && flies[i].x < 110 && flies[i].y > frogY - 10 && flies[i].y < frogY + 70) {
                         sessionFliesEaten++;
-                        state.points += pointsGained;
+                        state.points += flies[i].isRoyal ? 50 : 10;
                         document.getElementById('global-points').innerText = state.points;
+                        if (flies[i].isRoyal) confetti({ particleCount: 25, spread: 50, origin: { x: 0.2, y: frogY / canvas.height } });
                         
-                        if (flies[i].isRoyal) {
-                            confetti({ particleCount: 40, spread: 40, origin: { x: 0.2, y: frogY / canvas.height } });
-                        }
-
-                        if (tongueTarget === flies[i]) {
-                            tongueState = 'retracting';
-                            tongueTarget = null;
-                        }
+                        if (tongueTargetFly === flies[i]) { tongueState = 'retracting'; tongueTargetFly = null; }
                         flies.splice(i, 1);
                         continue;
                     }
-                    
-                    if (flies[i].x < -30) {
-                        if (tongueTarget === flies[i]) { tongueState = 'idle'; tongueTarget = null; }
-                        flies.splice(i, 1);
-                    }
+                    if (flies[i].x < -30) flies.splice(i, 1);
                 }
 
-                // ANIMAZIONE E DISEGNO DELLA LINGUA DELLA RANA
+                // LINGUA ELASTICA RANA
                 if (tongueState !== 'idle') {
-                    let startX = 75;
-                    let startY = frogY + 25;
-                    let targetX = tongueTarget ? tongueTarget.x : startX;
-                    let targetY = tongueTarget ? tongueTarget.y : startY;
+                    let startX = 80, startY = frogY + 35;
+                    let targetX = tongueTargetFly ? tongueTargetFly.x : startX;
+                    let targetY = tongueTargetFly ? tongueTargetFly.y : startY;
 
                     if (tongueState === 'shooting') {
-                        tongueLen += 0.25; // velocità allungamento lingua
-                        if (tongueLen >= 1) { tongueLen = 1; tongueState = 'retracting'; }
+                        tongueLen += 0.25; if (tongueLen >= 1) { tongueLen = 1; tongueState = 'retracting'; }
                     } else if (tongueState === 'retracting') {
-                        tongueLen -= 0.15; // velocità ritiro lingua
-                        if (tongueLen <= 0) { tongueLen = 0; tongueState = 'idle'; tongueTarget = null; }
+                        tongueLen -= 0.15; if (tongueLen <= 0) { tongueLen = 0; tongueState = 'idle'; tongueTargetFly = null; }
                     }
 
-                    let currentX = startX + (targetX - startX) * tongueLen;
-                    let currentY = startY + (targetY - startY) * tongueLen;
+                    let curX = startX + (targetX - startX) * tongueLen;
+                    let curY = startY + (targetY - startY) * tongueLen;
 
-                    // Disegno filo della lingua (rosso lucido ed elastico)
-                    ctx.strokeStyle = '#ef4444';
-                    ctx.lineWidth = 5;
-                    ctx.lineCap = 'round';
-                    ctx.beginPath();
-                    ctx.moveTo(startX, startY);
-                    ctx.lineTo(currentX, currentY);
-                    ctx.stroke();
-
-                    // Punta della lingua
-                    ctx.fillStyle = '#dc2626';
-                    ctx.beginPath();
-                    ctx.arc(currentX, currentY, 6, 0, Math.PI * 2);
-                    ctx.fill();
+                    ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+                    ctx.beginPath(); ctx.moveTo(startX, startY); ctx.lineTo(curX, curY); ctx.stroke();
                 }
 
-                // DISEGNO OSTACOLI NUVOLA
+                // DISEGNO NUVOLA TEMPESTA (OSTACOLO)
                 for (let i = obstacles.length - 1; i >= 0; i--) {
-                    if (fGame.isRunning) obstacles[i].x -= (currentSpeed * 1.2);
+                    if (fGame.isRunning) obstacles[i].x -= (currentSpeed * 1.1);
 
-                    let obs = obstacles[i];
-                    if (images.stormCloud.complete && images.stormCloud.naturalWidth !== 0) {
-                        ctx.drawImage(images.stormCloud, obs.x - 25, obs.y - 25, 55, 55);
-                    } else {
-                        ctx.fillStyle = '#7c3aed';
-                        ctx.beginPath(); ctx.arc(obs.x, obs.y, 20, 0, Math.PI * 2); ctx.fill();
+                    if (cleanCanvasAssets.stormCloud) {
+                        ctx.drawImage(cleanCanvasAssets.stormCloud, obstacles[i].x - 30, obstacles[i].y - 30, 60, 60);
                     }
 
-                    if (obs.x > 35 && obs.x < 100 && obs.y > frogY - 15 && obs.y < frogY + 60) {
+                    if (obstacles[i].x > 35 && obstacles[i].x < 100 && obstacles[i].y > frogY - 20 && obstacles[i].y < frogY + 60) {
                         obstacles.splice(i, 1);
-                        hitFlashFrames = 15;
-                        tongueState = 'idle'; tongueTarget = null; tongueLen = 0; // interrompe la lingua se viene colpita
-                        
-                        let lostCount = Math.min(sessionFliesEaten, Math.floor(Math.random() * 3) + 1);
-                        sessionFliesEaten -= lostCount;
-                        if (state.points > lostCount * 10) state.points -= lostCount * 10;
-
-                        for (let k = 0; k < lostCount; k++) {
-                            escapingFlies.push({ x: 75, y: frogY + 25, vx: -(Math.random() * 3 + 2), vy: Math.random() * 6 - 3, isRoyal: Math.random() < 0.15 });
-                        }
+                        if (sessionFliesEaten > 0) sessionFliesEaten--;
+                        if (state.points >= 10) state.points -= 10;
                         document.getElementById('global-points').innerText = state.points;
                         continue;
                     }
-                    if (obs.x < -50) obstacles.splice(i, 1);
+                    if (obstacles[i].x < -60) obstacles.splice(i, 1);
                 }
 
-                // Animazione mosche spaventate che fuggono via
-                for (let i = escapingFlies.length - 1; i >= 0; i--) {
-                    escapingFlies[i].x += escapingFlies[i].vx;
-                    escapingFlies[i].y += escapingFlies[i].vy;
-
-                    let escImg = escapingFlies[i].isRoyal ? images.royalFly : images.goldFly;
-                    if (escImg.complete && escImg.naturalWidth !== 0) {
-                        ctx.drawImage(escImg, escapingFlies[i].x - 10, escapingFlies[i].y - 10, 20, 20);
-                    } else {
-                        ctx.fillStyle = 'rgba(251, 191, 36, 0.8)';
-                        ctx.beginPath(); ctx.arc(escapingFlies[i].x, escapingFlies[i].y, 5, 0, Math.PI * 2); ctx.fill();
-                    }
-                    
-                    if (escapingFlies[i].x < -10 || escapingFlies[i].y < 0 || escapingFlies[i].y > canvas.height) {
-                        escapingFlies.splice(i, 1);
-                    }
+                // DISEGNO RANA PERSONAGGIO
+                if (cleanCanvasAssets.frog) {
+                    ctx.drawImage(cleanCanvasAssets.frog, 35, frogY, 75, 75);
                 }
 
-                if (hitFlashFrames > 0) {
-                    ctx.save(); ctx.globalAlpha = 0.4; ctx.fillStyle = '#ef4444'; ctx.fillRect(0,0, canvas.width, canvas.height); ctx.restore();
-                    hitFlashFrames--;
-                }
-
-                // RENDERING PERSONAGGIO RANA
-                ctx.drawImage(images.frog, 40, frogY, 65, 65);
-
-                // CONTATORE MOSCHE
+                // TESTO E SCORE
                 ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
-                ctx.shadowBlur = 4;
                 ctx.font = 'bold 16px Fredoka, sans-serif';
                 ctx.fillText(`✨ Insetti Presi: ${sessionFliesEaten}`, 15, 30);
-                ctx.shadowBlur = 0;
-
-            } else if (currentActiveMode === 'leone') {
-                // ENGINE LEONE (Mantiene il funzionamento attivo della cattura delle stelle)
-                let landGrad = ctx.createLinearGradient(0, canvas.height, 0, 0);
-                landGrad.addColorStop(0, '#ffedd5'); landGrad.addColorStop(1, '#fef3c7');
-                ctx.fillStyle = landGrad; ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-                let lionY = canvas.height - 110;
-                ctx.drawImage(images.lionColor, lionX, lionY, 85, 85);
-
-                if (lGame.isRunning) {
-                    if (Math.random() < 0.04) {
-                        iceBlocks.push({ x: Math.random() * (canvas.width - 40) + 10, y: -30, size: 24, speed: Math.random() * 1.5 + 2.2 });
-                    }
-                }
-
-                for (let i = iceBlocks.length - 1; i >= 0; i--) {
-                    if (lGame.isRunning) iceBlocks[i].y += iceBlocks[i].speed;
-
-                    ctx.fillStyle = '#a855f7'; ctx.strokeStyle = '#f472b6'; ctx.lineWidth = 2;
-                    ctx.beginPath();
-                    ctx.moveTo(iceBlocks[i].x + 12, iceBlocks[i].y);
-                    ctx.lineTo(iceBlocks[i].x + 24, iceBlocks[i].y + 12);
-                    ctx.lineTo(iceBlocks[i].x + 12, iceBlocks[i].y + 24);
-                    ctx.lineTo(iceBlocks[i].x, iceBlocks[i].y + 12);
-                    ctx.closePath(); ctx.fill(); ctx.stroke();
-
-                    if (iceBlocks[i].y > lionY - 15 && iceBlocks[i].y < lionY + 65 && iceBlocks[i].x > lionX - 15 && iceBlocks[i].x < lionX + 80) {
-                        iceBlocks.splice(i, 1);
-                        state.points += 20;
-                        document.getElementById('global-points').innerText = state.points;
-                        continue;
-                    }
-                    if (iceBlocks[i].y > canvas.height + 20) iceBlocks.splice(i, 1);
-                }
             }
 
             requestAnimationFrame(globalGameLoop);
@@ -445,143 +314,29 @@
         function launchFullscreenGame(mode) {
             currentActiveMode = mode;
             document.getElementById('main-dashboard').classList.add('hidden');
-            const container = document.getElementById('fullscreen-game-container');
-            container.classList.remove('hidden');
-            
+            document.getElementById('fullscreen-game-container').classList.remove('hidden');
             resizeCanvasToContainer();
-            const timerTxt = document.getElementById('game-live-timer');
-            const titleTxt = document.getElementById('game-headline-title');
 
             if (mode === 'froggy') {
-                titleTxt.innerText = "🐸 Froggy Flight Engine";
-                sessionFliesEaten = 0; tongueState = 'idle'; tongueTarget = null; tongueLen = 0;
-                flies = []; obstacles = []; escapingFlies = [];
-                fGame.isRunning = true;
+                sessionFliesEaten = 0; flies = []; obstacles = []; fGame.isRunning = true;
                 fGame.interval = setInterval(() => {
                     fGame.elapsed++;
                     let rem = fGame.total - fGame.elapsed;
-                    timerTxt.innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
-                    if(fGame.elapsed >= fGame.total) { state.froggyDone = true; state.points += 150; exitGame(); }
-                }, 1000);
-            } else if (mode === 'leone') {
-                titleTxt.innerText = "🦁 Il Leone Cacciatore";
-                lGame.isRunning = true;
-                lGame.interval = setInterval(() => {
-                    lGame.elapsed++;
-                    let rem = lGame.total - lGame.elapsed;
-                    timerTxt.innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
-                    if(lGame.elapsed >= lGame.total) { state.leoneDone = true; state.points += 100; exitGame(); }
+                    document.getElementById('game-live-timer').innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
+                    if (fGame.elapsed >= fGame.total) { exitGame(); }
                 }, 1000);
             }
         }
 
         function exitGame() {
             fGame.isRunning = false; clearInterval(fGame.interval);
-            lGame.isRunning = false; clearInterval(lGame.interval);
-            currentActiveMode = null; flies = []; iceBlocks = []; obstacles = []; escapingFlies = [];
+            currentActiveMode = null;
             document.getElementById('fullscreen-game-container').classList.add('hidden');
             document.getElementById('main-dashboard').classList.remove('hidden');
-            save(); updateUI();
-        }
-
-        function init() {
-            const saved = localStorage.getItem('regno_v14_royal_fly');
-            if (saved) { try { state = { ...state, ...JSON.parse(saved) }; } catch(e) {} }
-            updateUI();
-            renderCalendar();
-        }
-
-        function save() { localStorage.setItem('regno_v14_royal_fly', JSON.stringify(state)); }
-
-        function updateUI() {
-            document.getElementById('global-points').innerText = state.points;
-
-            if (state.froggyDone) {
-                document.getElementById('card-btn-froggy').disabled = true;
-                document.getElementById('card-btn-froggy').className = "bg-slate-100 rounded-2xl p-4 border opacity-50 flex flex-col items-center text-center justify-between h-32 cursor-not-allowed";
-                document.getElementById('card-timer-froggy').innerText = "FATTO 👑";
-            } else {
-                let rem = fGame.total - fGame.elapsed;
-                document.getElementById('card-timer-froggy').innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
-            }
-
-            if (state.leoneDone) {
-                document.getElementById('card-btn-leone').disabled = true;
-                document.getElementById('card-btn-leone').className = "bg-slate-100 rounded-2xl p-4 border opacity-50 flex flex-col items-center text-center justify-between h-32 cursor-not-allowed";
-                document.getElementById('card-timer-leone').innerText = "FATTO 👑";
-            } else {
-                let rem = lGame.total - lGame.elapsed;
-                document.getElementById('card-timer-leone').innerText = `${Math.floor(rem/60)}:${rem%60 < 10 ? '0':''}${rem%60}`;
-            }
-
-            const gems = Math.floor(state.diurnoMinutes / 15);
-            const wrapper = document.getElementById('gems-wrapper');
-            if (wrapper) {
-                wrapper.innerHTML = "";
-                for(let i=0; i<6; i++) {
-                    let box = document.createElement('div');
-                    if(i < gems) {
-                        box.className = "w-7 h-7 rounded-full flex items-center justify-center transform scale-110 shadow-md bg-transparent border-0";
-                        box.innerHTML = "<img src='gemma-accesa.png' class='w-full h-full object-contain' onerror='this.parent.innerHTML=\"💎\"'>";
-                    } else {
-                        box.className = "w-7 h-7 rounded-full border border-slate-300 bg-slate-200/60 flex items-center justify-center text-[10px] text-slate-400 font-bold shadow-inner";
-                        box.innerHTML = (i + 1);
-                    }
-                    wrapper.appendChild(box);
-                }
-            }
-
-            let prog = 0;
-            if (state.froggyDone) prog += 33.3;
-            if (state.leoneDone) prog += 33.3;
-            prog += (Math.min(gems, 6) * 5.55);
-            prog = Math.min(Math.round(prog), 100);
-
-            document.getElementById('unicorn-avatar').style.left = `${prog}%`;
-            document.getElementById('completion-text').innerText = `Esplorato: ${prog}%`;
-
-            const q = document.getElementById('motivational-quote');
-            if (prog >= 100) { q.innerText = "Regno Conquistato! 👑🎉"; triggerWin(); }
-        }
-
-        function addDiurno(m) {
-            if (state.diurnoMinutes >= 90) return;
-            state.diurnoMinutes = Math.min(state.diurnoMinutes + m, 90);
-            state.points += m * 2; save(); updateUI();
-        }
-
-        function triggerWin() {
-            const t = new Date().toISOString().split('T')[0];
-            if (!state.completedDays.includes(t)) { state.completedDays.push(t); state.points += 300; save(); renderCalendar(); }
-            confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-        }
-
-        function renderCalendar() {
-            const grid = document.getElementById('calendar-grid');
-            if (!grid) return;
-            grid.innerHTML = "";
-            const dShort = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'];
-            for (let i = 6; i >= 0; i--) {
-                let d = new Date(); d.setDate(d.getDate() - i);
-                let win = state.completedDays.includes(d.toISOString().split('T')[0]);
-                let box = document.createElement('div');
-                box.className = `p-1 rounded-xl border flex flex-col items-center ${win ? 'bg-pink-100 border-pink-300' : 'bg-slate-50 border-slate-200'}`;
-                box.innerHTML = `<span class="text-[8px] text-slate-400 font-bold">${dShort[(d.getDay() + 6) % 7]}</span><span class="text-xs font-bold text-slate-700">${d.getDate()}</span><span class="text-xs mt-0.5">${win ? '💎' : '🔒'}</span>`;
-                grid.appendChild(box);
-            }
-        }
-
-        function resetDay() {
-            if(confirm("Vuoi resettare la giornata?")) {
-                state.froggyDone = false; state.leoneDone = false; state.diurnoMinutes = 0;
-                fGame = { total: 900, elapsed: 0, isRunning: false, interval: null };
-                lGame = { total: 600, elapsed: 0, isRunning: false, interval: null };
-                save(); init();
-            }
         }
 
         window.addEventListener('resize', resizeCanvasToContainer);
-        window.onload = () => { init(); globalGameLoop(); };
+        window.onload = () => { globalGameLoop(); };
     </script>
 </body>
 </html>
